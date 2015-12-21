@@ -1,57 +1,63 @@
+//資訊二甲  作業六
+//姓名： 劉彥余
+//學號： D0240176
+
 import java.util.ArrayList;
 
-public abstract class A6 {
-
-	abstract void doQuestion();
-    abstract void addQuestion(Question question);
-	
-	}
-
-	class Testpaper extends A6{
-		ArrayList<A6>list;
+public class A6 {
+	public static void main(String[] args) {
+		Component answer = new TestPaper();
 		
-		public Testpaper (){
-			list = new ArrayList <A6> ( ) ;
-		}
-		void addQuestion(A6 e){
-			list.add (e);
-		}
-		public void op() {
-			int a = 1;
-			a = a+1;
-			for(A6 e: list)
-				e.op();
-		}
-		@Override
-		void doQuestion() {
-			
-		}
-		@Override
-		void addQuestion(Question question) {
-			
-		}
-	} 
-	
-	
-	
+		if (answer instanceof TestPaper) {
+			answer.addQuestion(new Question("y - 10 = ...calculate  y"));
+			answer.addQuestion(new Question("x + 8 = ...calculate x "));
 
-	class Question extends A6 {
-		String description;
-
-		public Question(String desc) {
-			this.description = desc;
 		}
+		answer.doQuestion();
+	}
+}
 
-		public void print() {
-			char[] desc;
-			System.out.println(desc);
-		}
+abstract class Component {
+	abstract void doQuestion();
 
-		@Override
-		public
-		void op() {
-			// TODO Auto-generated method stub
-			
-		}
+	abstract void addQuestion(Question question);
+}
+
+class TestPaper extends Component {
+	ArrayList<Component> list;
+
+	public TestPaper() {
+		list = new ArrayList<>();
 	}
 
+	public void addQuestion(Question q) {
+		list.add(q);
+	}
+
+	@Override
+	void doQuestion() {
+		list.forEach(Component::doQuestion);
+	}
+}
+
+class Question extends Component {
+	String description;
+
+	public Question(String desc) {
+		this.description = desc;
+	}
+
+	public void print() {
+		System.out.println(this.description);
+	}
+
+	@Override
+	void doQuestion() {
+		print();
+	}
+
+	@Override
+	void addQuestion(Question question) {
+
+	}
+}
